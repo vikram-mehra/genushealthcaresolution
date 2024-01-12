@@ -49,8 +49,8 @@
 	                                    </div>
 	                                    <div class="answer">
 	                                        <p><strong style="color: #3baf38;">Given Answer :</strong>
-	                                        	@php $obj = $data['given_ans'][$q->id]; @endphp
-	                                            <strong>{{ strtoupper(str_replace('ans_', '', $obj)) }}.</strong>{{$q->toArray()[$obj] }}
+	                                        	@php $obj = ($data['quizType'][$q->id]=='2')?implode(",",$data['given_ans'][$q->id]):$data['given_ans'][$q->id]; @endphp
+	                                            <strong>{{ ($data['quizType'][$q->id]!='4')?strtoupper(str_replace('ans_', '', $obj)):'' }}.</strong>{{ ($data['quizType'][$q->id]=='2' || $data['quizType'][$q->id]=='4')?$obj :$q->toArray()[$obj] }}
 	                                        </p>
 	                                    </div>
                                         @php $ansArr = $q->toArray(); @endphp
@@ -61,7 +61,7 @@
 	                                <div class="col-md-3">
 	                                    <div>&nbsp;</div>
 	                                    <div class="pull-right">
-	                                    	@if($data['given_ans'][$q->id] == $q->correct_ans)
+	                                    	@if($obj == $q->correct_ans)
 	                                        <div class="correct">Correct</div>
 	                                        @else
 	                                        <div class="incorrect">Incorrect</div>

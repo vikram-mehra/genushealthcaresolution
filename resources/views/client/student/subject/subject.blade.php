@@ -67,10 +67,16 @@ use	App\Http\Controllers\Client\Student\Subject\StudentSubjectControllers;
 	                                       
 	                                    </div>
 	                                </div>
-	                                <div class="col-md-3">
+	                                <div class="col-md-2">
+	                                    <div>&nbsp;</div>
+	                                    <div class="pull-left">
+	                                        {{date('d-m-Y', strtotime($val->created_at))}} 
+	                                    </div>
+	                                </div>
+									<div class="col-md-1">
 	                                    <div>&nbsp;</div>
 	                                    <div class="pull-right">
-	                                        {{date('d-m-Y', strtotime($val->created_at))}} 
+	                                        <a href="{{ url('/student/report/'.$val->id) }}"> View </a>
 	                                    </div>
 	                                </div>
 	                            </div>

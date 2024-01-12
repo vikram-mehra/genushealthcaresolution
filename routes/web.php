@@ -110,6 +110,8 @@ Route::group(['prefix' => 'student', 'middleware' => 'StudentAuth'], function ()
 	Route::match(['get', 'post'], '/change-password',[StudentChangePasswordControllers::class,'index']);
 	#invoice
 	Route::get('/invoice/{id?}',[StudentDashboardControllers::class,'studentInvoice']);
+	# student exam report
+	Route::get('/student/report/{id}',[StudentSubjectControllers::class,'report']);
 });
 
 
