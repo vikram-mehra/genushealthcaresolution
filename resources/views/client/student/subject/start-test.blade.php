@@ -195,5 +195,7 @@
 	        $('#queIncr').text(parseInt(now)+1);
 
 		}
+
+		
 	</script>
 @endsection

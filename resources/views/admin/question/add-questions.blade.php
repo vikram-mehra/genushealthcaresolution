@@ -38,10 +38,10 @@
                                             <label for="quizType">Select Type</label>
                                             <select id="quizType" class="form-control" name="quizType" required="">
                                                 <option value="">--select-- </option>
-                                                <option value="1" {{  ($question->quizType == '1') ? 'selected' : '' }}>Multiple Radio </option>
-                                                <option value="2" {{  ($question->quizType == '2') ? 'selected' : '' }}>Multiple Checkbox </option>
-                                                <option value="3" {{  ($question->quizType == '3') ? 'selected' : '' }}>Boolean </option>
-                                                <option value="4" {{  ($question->quizType == '4') ? 'selected' : '' }}>Short Ans</option>
+                                                <option value="1" {{  (isset($question->quizType ) && $question->quizType == '1') ? 'selected' : '' }}>Multiple Radio </option>
+                                                <option value="2" {{  (isset($question->quizType ) && $question->quizType == '2') ? 'selected' : '' }}>Multiple Checkbox </option>
+                                                <option value="3" {{  (isset($question->quizType ) && $question->quizType == '3') ? 'selected' : '' }}>Boolean </option>
+                                                <option value="4" {{  (isset($question->quizType ) && $question->quizType == '4') ? 'selected' : '' }}>Short Ans</option>
                                             </select>
                                         </div>
                                     </div>
@@ -153,10 +153,10 @@
                                             <div class="form-group">
                                                 <label for="answer">Correct Answer</label>
                                                 <select id="answer1" name="correct_ans[]" class="form-control" multiple required>
-                                                    <option value="ans_a" {{ (in_array("ans_a", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer A</option>
-                                                    <option value="ans_b" {{ (in_array("ans_b", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer B</option>
-                                                    <option value="ans_c" {{ (in_array("ans_c", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer C</option>
-                                                    <option value="ans_d" {{ (in_array("ans_d", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer D</option>
+                                                    <option value="ans_a" {{ (isset($question->correct_ans) && in_array("ans_a", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer A</option>
+                                                    <option value="ans_b" {{ (isset($question->correct_ans) && in_array("ans_b", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer B</option>
+                                                    <option value="ans_c" {{ (isset($question->correct_ans) && in_array("ans_c", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer C</option>
+                                                    <option value="ans_d" {{ (isset($question->correct_ans) && in_array("ans_d", explode(",", $question->correct_ans))) ? 'selected' : '' }}>Answer D</option>
                                                 </select>
 
                                                 @if (!empty($errors))
