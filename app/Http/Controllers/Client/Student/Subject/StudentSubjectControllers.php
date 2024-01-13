@@ -33,6 +33,28 @@ class StudentSubjectControllers extends Controller
         return view('client/student/subject/subject', compact('courseContent', 'subject', 'topic','testReports'));
     }
 
+    public function report($examId)
+    {
+        print_r($examId); die;
+        $student_id = Session::get('studentsession')->id;
+        $courseId = $this->getCourseId($subject);
+        $courseContent = CourseTopic::select('*')
+                        ->join('questions','course_topic.id','=','questions.course_topic_id')
+                        ->where(['subject_title' => $topic])->first();
+
+        $testReports = \DB::table('online_test_report')
+                        ->select('online_test_report.*')
+                        ->join('tbl_student','online_test_report.student_id','=','tbl_student.id')
+                        ->where('online_test_report.course_topic_id',$courseContent->course_topic_id)
+                        ->where('online_test_report.student_id',$student_id)
+                        ->where('online_test_report.course_id',$courseId)
+                        ->get();
+
+         //dd($testReports->toArray());
+
+        return view('client/student/subject/subject', compact('courseContent', 'subject', 'topic','testReports'));
+    }
+
     public function onlineTest($subject, $topic)
     {
         Session::put('testQuestions', '');
@@ -80,8 +102,8 @@ class StudentSubjectControllers extends Controller
             $qstId = [];
             $correctFlag = 0;
             foreach($data['given_ans'] as $qid => $givenAns) {
+                $givenAns = (is_array($givenAns))?implode(",",$givenAns):$givenAns;
                 $inputArr['question_id'] = $qid;
-                $inputArr['given_ans'] = $givenAns;
                 $inputArr['given_ans'] = $givenAns;
                 $inputArr['attempt_que'] = count($data['given_ans']);
                 $inputArr['total_que'] = $data['total_que'];
@@ -116,6 +138,7 @@ class StudentSubjectControllers extends Controller
             $insertId = \DB::table('online_test_report')->insertGetId($testReport);
 
              foreach($data['given_ans'] as $qid => $givenAns) {
+                $givenAns = (is_array($givenAns))?implode(",",$givenAns):$givenAns;
                 $inputRpt['online_test_id'] = $insertId;
                 $inputRpt['question_id'] = $qid;
                 $inputRpt['given_ans'] = $givenAns;
@@ -126,7 +149,7 @@ class StudentSubjectControllers extends Controller
             }
           
             $questions = Session::get('testQuestions');
-
+            //print_r($data); die;
             // return back()->with(['message' => 'You have given successfully test!', 'alert-type' => 'success']);
             return view('client/student/subject/test-result', compact('totalQues', 'attemptQues', 'subject', 'topic', 'limit', 'correctFlag', 'questions', 'data'));
         }

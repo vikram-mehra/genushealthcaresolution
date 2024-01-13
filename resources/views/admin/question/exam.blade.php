@@ -79,10 +79,11 @@
                                     </thead>
                                     <tbody>
                                         @if(! empty($questions))
+                                        @php $i=(isset($_GET['page']) && $_GET['page']!=1)?($_GET['page']-1)*50 +1:1; @endphp
                                         @foreach($questions as $question)
                                         @php $cn = $question->course; @endphp
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $i }}</td>
                                             <!-- <td>{{ (isset($cn->course_name)) ? $cn->course_name : '' }}</td> -->
                                             <td>{{ !empty($question->course_topic)? $question->course_topic->subject_title:''}}</td>
                                             <td>{{ $question->ans_a }}</td>
@@ -93,10 +94,15 @@
                                             <td><a href="{{url('/admin/edit-question')}}/{{$question->id}}"><i class="far fa-edit"></i></a></td>
                                             <td><a href="{{url('/admin/delete-question')}}/{{$question->id}}" onclick="return confirm('Are you sure want to delete this question?')"><i class="far fa-trash-alt"></i></a></td>
                                         </tr>
+                                        @php $i=$i+1; @endphp
                                         @endforeach
+                                        
                                         @endif
                                     </tbody>
                                 </table>
+                            </div>
+                            <div style="float: right;">
+                            {{$questions->links()}}
                             </div>
                         </div>
                     </div>
