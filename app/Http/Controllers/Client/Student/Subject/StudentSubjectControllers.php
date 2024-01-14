@@ -35,24 +35,38 @@ class StudentSubjectControllers extends Controller
 
     public function report($examId)
     {
-        print_r($examId); die;
-        $student_id = Session::get('studentsession')->id;
-        $courseId = $this->getCourseId($subject);
-        $courseContent = CourseTopic::select('*')
-                        ->join('questions','course_topic.id','=','questions.course_topic_id')
-                        ->where(['subject_title' => $topic])->first();
-
         $testReports = \DB::table('online_test_report')
-                        ->select('online_test_report.*')
-                        ->join('tbl_student','online_test_report.student_id','=','tbl_student.id')
-                        ->where('online_test_report.course_topic_id',$courseContent->course_topic_id)
-                        ->where('online_test_report.student_id',$student_id)
-                        ->where('online_test_report.course_id',$courseId)
+                        ->select('online_test_report.*','course.course_name','course_topic.subject_title')
+                        ->join('course','course.id','=','online_test_report.course_id')
+                        ->join('course_topic','course_topic.id','=','online_test_report.course_topic_id')
+                        ->where('online_test_report.id',$examId)
                         ->get();
-
-         //dd($testReports->toArray());
-
-        return view('client/student/subject/subject', compact('courseContent', 'subject', 'topic','testReports'));
+        $totalQues   = $testReports[0]->total_que;
+        $attemptQues = $testReports[0]->attempt_que;
+        $qstId       = $testReports[0]->questions_id;
+        $student_id  = $testReports[0]->student_id;
+        $subject     = $testReports[0]->course_name;
+        $topic       = $testReports[0]->subject_title;
+        
+        $correctFlag = 0;
+        $questions = [];
+        $testReportsAns = \DB::table('online_test_question_report')
+                        ->select('online_test_question_report.*','questions.question','questions.quizType')
+                        ->join('questions','questions.id','=','online_test_question_report.question_id')
+                        ->where('online_test_question_report.online_test_id',$examId)
+                        ->get();
+        if(!$testReportsAns->isEmpty()) {
+            foreach($testReportsAns as $val) {
+                $data['given_ans'][$val->question_id] = $val->given_ans;
+                $data['correct_ans'][$val->question_id] = $val->correct_ans;
+                $data['quizType'][$val->question_id] = $val->quizType;
+                $questions[] = ['id'=>$val->question_id , 'question'=>$val->question];
+                if($val->given_ans == $val->correct_ans) {
+                    $correctFlag++;
+                }
+            }
+        }
+        return view('client/student/subject/stu-test-result', compact('totalQues', 'attemptQues', 'subject', 'topic',  'correctFlag', 'questions', 'data'));
     }
 
     public function onlineTest($subject, $topic)

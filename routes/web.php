@@ -111,7 +111,7 @@ Route::group(['prefix' => 'student', 'middleware' => 'StudentAuth'], function ()
 	#invoice
 	Route::get('/invoice/{id?}',[StudentDashboardControllers::class,'studentInvoice']);
 	# student exam report
-	Route::get('/student/report/{id}',[StudentSubjectControllers::class,'report']);
+	Route::get('/report/{id}',[StudentSubjectControllers::class,'report']);
 });
 
 
