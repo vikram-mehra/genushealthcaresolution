@@ -51,9 +51,10 @@
                      <th width="5%">S.No.</th>
                      <th width="20%">Name</th>
                      <th width="20%">Email</th>
-                     <th width="20%">Phone</th>
+                     <th width="15%">Phone</th>
                      <th width="20%">Course Names</th>
-                     <th width="20%">Status</th>
+                     <th width="10%">Status</th>
+                     <th width="5%">View Test</th>
                      <th width="5%">Edit</th>
                      <th width="5%">Delete</th>
                    </tr>
@@ -68,6 +69,7 @@
                      <td>{{$val->phone}}</td>
                      <td> {{ (isset($courses[$val->id]))?$courses[$val->id]['name']:'' }} </td>
                      <td>{{($val->status) ? 'Active' : 'Deactive'}}</td>
+                     <td><a href="{{url('/admin/register/studunt-test-list')}}/{{$val->id}}"><i class="far fa-eye"></i></a></td>
                      <td><a href="{{url('/admin/register/update-register')}}/{{$val->id}}"><i class="far fa-edit"></i></a></td>
                      <td><a href="{{url('/admin/register/delete-register')}}/{{$val->id}}" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt"></i></a></td>
                    </tr>
