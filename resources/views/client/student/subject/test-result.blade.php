@@ -49,7 +49,7 @@
 	                                    </div>
 	                                    <div class="answer">
 	                                        <p><strong style="color: #3baf38;">Given Answer :</strong>
-	                                        	@php $obj = ($data['quizType'][$q->id]=='2')?implode(",",$data['given_ans'][$q->id]):$data['given_ans'][$q->id]; @endphp
+	                                        	@php $obj = ($data['quizType'][$q->id]=='2' || $data['quizType'][$q->id]=='4')?implode(",",$data['given_ans'][$q->id]):$data['given_ans'][$q->id]; @endphp
 	                                            <strong>{{ ($data['quizType'][$q->id]!='4')?strtoupper(str_replace('ans_', '', $obj)):'' }}.</strong>{{ ($data['quizType'][$q->id]=='2' || $data['quizType'][$q->id]=='4')?$obj :$q->toArray()[$obj] }}
 	                                        </p>
 	                                    </div>

@@ -13,10 +13,10 @@ class AdminDashboardControllers extends Controller
     }
 
     public function studentInvoice($id){
-    	$data = array();
+       $data = array();
     	$paymentId = base64_decode($id);
-    	$data['PaymentData'] = Payment::join('tbl_student','payments.student_id','=','tbl_student.id')->join('course','payments.course_id','=','course.id')->where('payments.id',$paymentId)->first(['payments.*','tbl_student.name as studentname','course.course_name']);
-
-    	return view('client/student/invoice',$data);
+        
+    	$data['PaymentData'] = Payment::join('tbl_student','payments.student_id','=','tbl_student.id')->leftJoin('course','payments.course_id','=','course.id')->where('payments.id',$paymentId)->first(['payments.*','tbl_student.name as studentname','course.course_name']);
+        return view('client/student/invoice',$data);
     }
 }

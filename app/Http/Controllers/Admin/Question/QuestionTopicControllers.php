@@ -40,6 +40,10 @@ class QuestionTopicControllers extends Controller
             $req->merge(['correct_ans' => implode(',', $req->input('correct_ans'))]);
         }
 
+         // If quizType is 4, convert correct_ans from array to string
+         if ($req->input('quizType') == 4 && is_array($req->input('correct_ans'))) {
+            $req->merge(['correct_ans' => implode(',', $req->input('correct_ans'))]);
+        }
         $inputArr = $req->except('_token');
         //print_r($inputArr);die;
         Question::create($inputArr);
@@ -63,6 +67,10 @@ class QuestionTopicControllers extends Controller
 
             // If quizType is 2, convert correct_ans from array to string
             if ($req->input('quizType') == 2 && is_array($req->input('correct_ans'))) {
+                $req->merge(['correct_ans' => implode(',', $req->input('correct_ans'))]);
+            }
+             // If quizType is 4, convert correct_ans from array to string
+            if ($req->input('quizType') == 4 && is_array($req->input('correct_ans'))) {
                 $req->merge(['correct_ans' => implode(',', $req->input('correct_ans'))]);
             }
             $UpdateArr = $req->except('_token');

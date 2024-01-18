@@ -117,16 +117,18 @@ class StudentSubjectControllers extends Controller
             $correctFlag = 0;
             foreach($data['given_ans'] as $qid => $givenAns) {
                 $givenAns = (is_array($givenAns))?implode(",",$givenAns):$givenAns;
+                $corr_ans = \Crypt::decryptString($data['correct_ans'][$qid]);
                 $inputArr['question_id'] = $qid;
                 $inputArr['given_ans'] = $givenAns;
                 $inputArr['attempt_que'] = count($data['given_ans']);
                 $inputArr['total_que'] = $data['total_que'];
                 $inputArr['date'] = date('Y-m-d');
-                $inputArr['correct_ans'] = \Crypt::decryptString($data['correct_ans'][$qid]);
+                $inputArr['correct_ans'] = $corr_ans;
 
                 $chkQues = QuizTestReport::where(['student_id' => $inputArr['student_id'], 'question_id' => $qid])->first();
                 // Getting Correct Answers...
-                if($givenAns == \Crypt::decryptString($data['correct_ans'][$qid])) {
+                
+                if($givenAns == $corr_ans) {
                     $correctFlag++;
                 }
                 if($chkQues) {

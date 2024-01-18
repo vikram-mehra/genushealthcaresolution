@@ -55,6 +55,13 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="quizQuestion">Remark</label>
+                                            <textarea id="remark" name="remark" class="form-control" style="min-height: 35px;" >{{ (isset($question->remark)) ? $question->remark : '' }}</textarea>
+                                            
+                                        </div>
+                                    </div>
 
                                     <div id="mcq" class="col-md-12" style="display: none;">
                                         <div class="col-sm-6">
@@ -198,10 +205,34 @@
                                     </div>
 
                                     <div id="shortans" class="col-md-12" style="display: none;">
-                                        <div class="col-md-6">
+                                    @php $co_ans = (isset($question->correct_ans)) ? explode(",", $question->correct_ans):[];@endphp
+                                    <label> Correct Ans </label>
+                                        <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label for="answer">Correct Answer</label>
-                                                <textarea id="answer3" name="correct_ans"> {{ (isset($question->correct_ans)) ? $question->correct_ans : '' }}</textarea>
+                                                <label for="ans_a">Answer A</label>
+                                                <input type="text" id="ans_a1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[0])) ? $co_ans[0] : '' }}" required>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="ans_b">Answer B</label>
+                                                <input type="text" id="ans_b1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[1])) ? $co_ans[1] : '' }}" required>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="ans_c">Answer C</label>
+                                                <input type="text" id="ans_c1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[2])) ? $co_ans[2] : '' }}" required>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="ans_d">Answer D</label>
+                                                <input type="text" id="ans_d1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[3])) ? $co_ans[3] : '' }}" required>
+                                               
                                             </div>
                                         </div>
                                     </div>

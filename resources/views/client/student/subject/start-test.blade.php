@@ -96,7 +96,27 @@
 		                        </div>
 								@elseif($q->quizType==4)
 								<div class="question">
-		                            <textarea id="ans" name="given_ans[{{$q->id}}]"> </textarea>
+		                            <span>A) </span>
+		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_a{{ $loop->iteration }}" value="" required>
+		                            <p>{{ $q->ans_a }}</p>
+		                            <div class="clear"></div>
+		                        </div>
+		                        <div class="question">
+		                            <span>B) </span>
+		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_b{{ $loop->iteration }}" value="">
+		                            <p>{{ $q->ans_b }}</p>
+		                            <div class="clear"></div>
+		                        </div>
+								<div class="question">
+		                            <span>C) </span>
+		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_c{{ $loop->iteration }}" value="">
+		                            <p>{{ $q->ans_c }}</p>
+		                            <div class="clear"></div>
+		                        </div>
+		                        <div class="question">
+		                            <span>D) </span>
+		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_d{{ $loop->iteration }}" value="">
+		                            <p>{{ $q->ans_d }}</p>
 		                            <div class="clear"></div>
 		                        </div>
 		                       
@@ -161,26 +181,22 @@
 					$('#quizError'+id).show();
 				}
 			} else {
-				var textareaValue = $('#quizTab' + id + ' .question textarea').val().trim();
-				if (textareaValue !== "") {
-					$('#prevBtn' + (parseInt(id) + 1)).css('display', 'inline-block');
-					var totalQue = parseInt($('#total_que').val());
-					$('#quizError' + id + ' span').hide();
-					if (parseInt(id) == (totalQue - 1)) {
-						$('#nextBtn' + (parseInt(id) + 1)).css('display', 'none');
-						$('#submitBtn' + (parseInt(id) + 1)).text('Submit Test');
-					}
-
-					divs.eq(now).hide();
-					var len = divs.length;
-					now = (now + 1 < len) ? now + 1 : 0;
-					divs.eq(now).show();
-
-					$('#queIncr').text(parseInt(now) + 1);
-				} else {
-					// alert('Please provide an answer!');
-					$('#quizErrorTxt' + id).show();
+				
+				$('#prevBtn' + (parseInt(id) + 1)).css('display', 'inline-block');
+				var totalQue = parseInt($('#total_que').val());
+				$('#quizError' + id + ' span').hide();
+				if (parseInt(id) == (totalQue - 1)) {
+					$('#nextBtn' + (parseInt(id) + 1)).css('display', 'none');
+					$('#submitBtn' + (parseInt(id) + 1)).text('Submit Test');
 				}
+
+				divs.eq(now).hide();
+				var len = divs.length;
+				now = (now + 1 < len) ? now + 1 : 0;
+				divs.eq(now).show();
+
+				$('#queIncr').text(parseInt(now) + 1);
+				
 			}
 		}
 

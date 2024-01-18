@@ -60,7 +60,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}.</td>
                                             <td>{{ $payment->date }}</td>
-                                            <td>{{ $payment->student->name }} </td>
+                                            <td>{{ isset($payment->student->name)!=''?$payment->student->name:''  }} </td>
                                             <td>
                                                 @if($payment->payment_status=='authorized')
                                                 <a href="{{url('/admin/invoice')}}/{{base64_encode($payment->id)}}" target="_blank">{{$payment->order_id}}
@@ -86,6 +86,9 @@
                                         @endif
                                     </tbody>
                                 </table>
+                            </div>
+                            <div style="float: right;">
+                            {{$payments->links()}}
                             </div>
                         </div>
                     </div>
