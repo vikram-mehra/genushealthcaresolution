@@ -111,7 +111,7 @@ Route::group(['prefix' => 'student', 'middleware' => 'StudentAuth'], function ()
 	#invoice
 	Route::get('/invoice/{id?}',[StudentDashboardControllers::class,'studentInvoice']);
 	# student exam report
-	Route::get('/student/report/{id}',[StudentSubjectControllers::class,'report']);
+	Route::get('/report/{id}',[StudentSubjectControllers::class,'report']);
 });
 
 
@@ -125,7 +125,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminAuth'], function () {
 	Route::get('/register/register-view',[RegisterControllers::class,'ListRegister']);
 	Route::get('/register/update-register/{id?}/',[RegisterControllers::class,'GetUpdate']);
 	Route::get('/register/delete-register/{id?}/',[RegisterControllers::class,'Delete']);
-	
+	Route::get('/register/studunt-test-list/{id?}/',[RegisterControllers::class,'getTestList']);
+	# student exam report
+	Route::get('/studunt/report/{id}',[RegisterControllers::class,'report']);
+
 	Route::match(['get','post'],'/course/add-course',[CourseControllers::class,'Index']);
 	Route::get('/course/update-course/{id?}/',[CourseControllers::class,'GetUpdate']);
 	Route::get('/course/delete-course/{id?}/',[CourseControllers::class,'Delete']);
