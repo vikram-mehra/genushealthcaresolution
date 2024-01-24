@@ -22,4 +22,6 @@ class PaymentController extends Controller
 
         return view('admin/payment/payment_history', compact('payments', 'from', 'to'));
     }
+
+   
 }

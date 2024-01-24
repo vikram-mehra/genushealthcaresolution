@@ -105,6 +105,9 @@ Route::group(['prefix' => 'student', 'middleware' => 'StudentAuth'], function ()
 	Route::post('/start-test/{subject}/{topic}',[StudentSubjectControllers::class,'startTestAndSave']);
 	#paymentHistory
 	Route::get('/payment-history',[StudentPaymentControllers::class,'index']);
+	# document in student dashboard
+	Route::get('/course-docs',[StudentPaymentControllers::class, 'getDocList']);
+
 	Route::match(['get', 'post'], '/my-profile',[StudentProfileControllers::class,'index']);
 	#Change Passsword
 	Route::match(['get', 'post'], '/change-password',[StudentChangePasswordControllers::class,'index']);
@@ -224,6 +227,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'AdminAuth'], function () {
 	#Payment History
 	Route::get('/payment-history',[PaymentController::class, 'index']);
 	Route::get('/payment-history/filter/',[PaymentController::class, 'index']);
+	
 	#Add Candidate
 	Route::match(['get','post'],'/candidate/add/',[AdminCandidateController::class,'add']);
 	Route::get('/candidate/destroy/{id}/',[AdminCandidateController::class,'destroy']);

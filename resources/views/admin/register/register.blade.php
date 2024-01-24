@@ -42,8 +42,6 @@
                                                 @endforeach
                                             @endif
 
-                                            {{--<label for="assignedCourse">Assigned Courses</label>
-                                            <input id="assignedCourse" type="text" value="{{$str}}" class="form-control" readonly>--}}
                                             
                                             <input type="hidden" name="order_id" value="{{\Crypt::encryptString($order_id)}}">
                                             <label for="assigneCourse">Assigne Courses</label>
@@ -65,7 +63,27 @@
                                         <div style="color:red">{{ $errors->first('email') }}</div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-6">
+                                        @if(isset($adminAssign))
+                                        <div class="form-group">
+                                            @php $courseDocIds = []; @endphp
+                                            @if($studentDoc->count())
+                                                @foreach($studentDoc as $data)
+                                                @php $courseDocIds[] = $data->doc_id; @endphp
+                                                @endforeach
+                                            @endif
+
+                                              
+                                            <label for="assigneCourseDoc">Assigned Doc</label>
+                                            <select id="assigneCourseDoc" class="form-control select2" name="doc_id[]" multiple>
+                                                <option value="">-- Select Course--</option>
+                                                @foreach($courseDocArr as $key => $val)
+                                                    <option value="{{$val->id}}" {{ (in_array($val->id, $courseDocIds)) ? 'selected' : '' }}>{{$val->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
+                                    </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="inputName">Phone No.</label>
@@ -129,6 +147,9 @@
     <script>
         $(document).ready(function() {
             $('#assigneCourse').select2();
+        })
+        $(document).ready(function() {
+            $('#assigneCourseDoc').select2();
         })
         function PasswordShow() {
             var x = document.getElementById("password");

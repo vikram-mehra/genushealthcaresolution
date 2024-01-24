@@ -10,7 +10,8 @@ use App\Models\Payment;
 use App\Models\Course;
 use Validator;
 use DB;
-use App\Models\CourseTopic;
+use App\Models\StudentDoc;
+use App\Models\CoursePdf;
 
 class RegisterControllers extends Controller
 {
@@ -109,6 +110,16 @@ class RegisterControllers extends Controller
             }
         }
 
+         // Assigned Student courses document here..
+         if($req->has('doc_id')) {
+            $courseDocId = $req->input('doc_id');
+            StudentDoc::where(['student_id' => $req->register_id])->delete();
+
+            foreach ($courseDocId as $cid) {
+                StudentDoc::create(['student_id' => $req->register_id, 'doc_id' => $cid]);
+            }
+        }
+
         return DB::table('tbl_student')->where('id', $req->register_id)->update($paramArray);
 
 
@@ -144,12 +155,15 @@ class RegisterControllers extends Controller
         return view('admin/register/list_register',$data);
     }
 
-    public function GetUpdate($id){
+    public function GetUpdate($id)
+    {
         $data['error']      ='';
         $data['singledata'] = DB::table('tbl_student')->where('id', $id)->first();
         $data['courses'] = Payment::with('course')->where(['student_id' => $id, 'status' => 1])->get();
+        $data['studentDoc'] = StudentDoc::with('course_pdf')->where(['student_id' => $id])->get();
         // dd($data['courses']->toArray());
         $data['courseArr'] = Course::whereStatus(1)->get();
+        $data['courseDocArr'] = CoursePdf::whereStatus(1)->get();
         $orderId = Payment::orderBy('id', 'desc')->limit(1)->pluck('id');
         $orderId = (isset($orderId[0])) ? $orderId[0] : 'ORD'.rand(1111111, 9999999);
         $data['order_id'] = $orderId;

@@ -48,6 +48,7 @@
                                 </ul>
                             </nav>
                             <li> <a href="{{url('/student/payment-history')}}"> <i class="fa fa-pencil-square-o"></i>Payment History</a> </li>
+                            <li> <a href="{{url('/student/course-docs')}}"> <i class="fa fa-pencil-square-o"></i>Course Docs</a> </li>
                             <li> <a href="{{url('/student/my-profile')}}"> <i class="fa fa-user"></i> My Profile<span> </span></a> </li>
                             <li> <a href="{{url('/student/change-password')}}"><i class="fa fa-key"></i>Change Password<span> </span></a> </li>
                             <li> <a href="{{url('/student/logout')}}"><i class="fa fa-sign-out"></i>Logout<span> </span></a> </li>

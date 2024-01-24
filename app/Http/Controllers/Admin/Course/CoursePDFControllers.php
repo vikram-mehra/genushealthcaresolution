@@ -6,42 +6,42 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
+use App\Models\CourseTopic;
 
 class CoursePDFControllers extends Controller
 {
     public function Index(Request $req){
         $data['courselist']  = DB::table('course')->where('status',1)->get();
         $data['singledata']  = '';
-        $data['topiclist']   =[];
-        $data['pdflist']   = DB::table('course_pdf')
+        $data['topiclist']   = CourseTopic::where('status',1)->get();
+        $data['pdflist']     = DB::table('course_pdf')
                                 ->select('course_pdf.*','course.course_name','course_topic.subject_title')
-                                ->join('course','course_pdf.course_id','=','course.id')
                                 ->join('course_topic','course_pdf.topic_id','=','course_topic.id')
+                                ->join('course','course_topic.course_id','=','course.id')
+                              
                                 ->get();
 
 
-      if($req->isMethod('post')){
-        if($req->pdf_id){
-             $validator = Validator::make($req->all(), [ 
-                    'course'    => 'required',
-                    'topic'     => 'required',
-                ]);
-        }else{
-             $validator = Validator::make($req->all(), [ 
-                    'course'    => 'required',
-                    'topic'     => 'required',
-                    'course_pdf'=> 'required',
-                ]);
-        }
+        if($req->isMethod('post')){
+            if($req->pdf_id){
+                $validator = Validator::make($req->all(), [ 
+                        'topic'     => 'required',
+                    ]);
+            }else{
+                $validator = Validator::make($req->all(), [ 
+                        'topic'     => 'required',
+                        'course_pdf'=> 'required',
+                    ]);
+            }
             if ($validator->fails()) { 
                     
-                 return redirect()
-                        ->back()
-                        ->withInput($req->input())
-                        ->withErrors($validator->errors());
-                }
+                return redirect()
+                    ->back()
+                    ->withInput($req->input())
+                    ->withErrors($validator->errors());
+            }
 
-             
+                
             if($req->pdf_id){
 
                 $this->Update($req);
@@ -61,19 +61,20 @@ class CoursePDFControllers extends Controller
                 return back()->with($notification); 
             }
         }
+
         return view('admin/course/add_pdf',$data);
     }
-     public function Add($req){
-        $uploadpdf_data = '';
 
+    public function Add($req){
+        $uploadpdf_data = '';
         if($req->hasFile('course_pdf')){
             $uploadpdf = $this->pdfupload($req->course_pdf);
             $uploadpdf_data = $uploadpdf['course_pdf'];
         }
 
         $paramArray = [
-                        'course_id'   => $req->course,
                         'topic_id'    => $req->topic,
+                        'name'        => $req->name,
                         'course_pdf'  => $uploadpdf_data,
                         'status'      => $req->status?$req->status:0,
                         'created_at'  => date('Y-m-d H:i:s'),
@@ -95,8 +96,8 @@ class CoursePDFControllers extends Controller
             $uploadpdf_data = $req->old_pdf;
         }
          $paramArray = [
-                        'course_id'   => $req->course,
                         'topic_id'    => $req->topic,
+                        'name'        => $req->name,
                         'course_pdf'  => $uploadpdf_data,
                         'status'      => $req->status?$req->status:0,
                         'updated_at'  => date('Y-m-d H:i:s'),
@@ -113,7 +114,7 @@ class CoursePDFControllers extends Controller
         
         $coursesingledata = DB::table('course_pdf')->where('id',$id)->first();
         $data['singledata'] = $coursesingledata;
-        $data['topiclist']  = DB::table('course_topic')->where(['status'=>1,'course_id'=>$coursesingledata->course_id])->get();
+        $data['topiclist']  = DB::table('course_topic')->where(['status'=>1,'id'=>$coursesingledata->topic_id])->get();
         return view('admin/course/add_pdf',$data);
     }
     public function Delete($id){
