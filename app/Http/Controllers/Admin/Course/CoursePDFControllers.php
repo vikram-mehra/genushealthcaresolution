@@ -16,9 +16,8 @@ class CoursePDFControllers extends Controller
         $data['topiclist']   = CourseTopic::where('status',1)->get();
         $data['pdflist']     = DB::table('course_pdf')
                                 ->select('course_pdf.*','course.course_name','course_topic.subject_title')
-                                ->join('course_topic','course_pdf.topic_id','=','course_topic.id')
-                                ->join('course','course_topic.course_id','=','course.id')
-                              
+                                ->leftJoin('course_topic','course_pdf.topic_id','=','course_topic.id')
+                                ->leftJoin('course','course_topic.course_id','=','course.id')
                                 ->get();
 
 
@@ -77,6 +76,7 @@ class CoursePDFControllers extends Controller
                         'name'        => $req->name,
                         'course_pdf'  => $uploadpdf_data,
                         'status'      => $req->status?$req->status:0,
+                        'expiry_days' => $req->expiry_days,
                         'created_at'  => date('Y-m-d H:i:s'),
                     ];
 
@@ -100,6 +100,7 @@ class CoursePDFControllers extends Controller
                         'name'        => $req->name,
                         'course_pdf'  => $uploadpdf_data,
                         'status'      => $req->status?$req->status:0,
+                        'expiry_days' => $req->expiry_days,
                         'updated_at'  => date('Y-m-d H:i:s'),
                     ];
         

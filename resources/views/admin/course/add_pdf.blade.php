@@ -22,6 +22,12 @@
                 </div>
 
                 <div class="col-sm-6">
+                  <label id="inputName">Expiry Days</label>
+                  <input type="text" name="expiry_days" value="{{(isset($singledata->expiry_days)) ?$singledata->expiry_days:''}}" >
+                </div>
+
+
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label for="inputName">Select Topic</label>
                     <select id="topic" name="topic" class="form-control" required>
@@ -74,7 +80,7 @@
         <!-- card -->
         @if($pdflist)
         <div class="card my-4">
-          <div class="card-header"> <i class="fas fa-table mr-1"></i> Video List </div>
+          <div class="card-header"> <i class="fas fa-table mr-1"></i> Doc List </div>
           <div class="card-body">
 
 
@@ -83,8 +89,8 @@
                 <thead>
                   <tr>
                     <th>S.No.</th>
-                    <th>Select Course</th>
-                    <th>Select Topic</th>
+                    <th>Course</th>
+                    <th>Topic</th>
                     <th>Doc Name</th>
                     <th>Doc</th>
 

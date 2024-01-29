@@ -113,10 +113,33 @@ class RegisterControllers extends Controller
          // Assigned Student courses document here..
          if($req->has('doc_id')) {
             $courseDocId = $req->input('doc_id');
-            StudentDoc::where(['student_id' => $req->register_id])->delete();
-
+            #Fetch all existing doc_ids for the student
+            $pdfIds = StudentDoc::where('student_id', $req->register_id)->pluck('doc_id')->toArray();
+            
             foreach ($courseDocId as $cid) {
-                StudentDoc::create(['student_id' => $req->register_id, 'doc_id' => $cid]);
+                if (!in_array($cid, $pdfIds)) {
+                    // Fetch expiry_days from CoursePdf based on the $cid
+                    $expiryDays = CoursePdf::where('id', $cid)->value('expiry_days');
+
+                    // Calculate expiry_date based on current date and expiry_days
+                    $expiryDate = date("Y-m-d", strtotime("+$expiryDays days"));
+
+                    // Create a new record if the doc_id is not present in the database
+                    StudentDoc::create(['student_id' => $req->register_id, 'doc_id' => $cid,'expiry_date'=> $expiryDate]);
+                } else {
+                    // Remove the found doc_id from $pdfIds array
+                    if (!empty($pdfIds)) {
+                        $key = array_search($cid, $pdfIds);
+                        unset($pdfIds[$key]);
+                    }
+                }
+            }
+        
+            // Delete remaining ids from the table
+            if (!empty($pdfIds)) {
+                StudentDoc::where('student_id', $req->register_id)
+                    ->whereIn('doc_id', $pdfIds)
+                    ->delete();
             }
         }
 
