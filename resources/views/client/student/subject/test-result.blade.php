@@ -61,9 +61,9 @@
 	                                <div class="col-md-3">
 	                                    <div>&nbsp;</div>
 	                                    <div class="pull-right">
-	                                    	@if($obj == $q->correct_ans)
+	                                    	@if(in_array($q->id,$correctAns))
 	                                        <div class="correct">Correct</div>
-	                                        @else
+											@else
 	                                        <div class="incorrect">Incorrect</div>
 	                                        @endif
 	                                    </div>

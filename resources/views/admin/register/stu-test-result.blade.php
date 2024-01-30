@@ -58,7 +58,7 @@
 	                                <div class="col-md-3">
 	                                    <div>&nbsp;</div>
 	                                    <div class="pull-right">
-	                                    	@if($obj == $data['correct_ans'][$q['id']])
+										@if(in_array($q['id'],$correctAns))
 	                                        <div class="correct">Correct</div>
 	                                        @else
 	                                        <div class="incorrect">Incorrect</div>

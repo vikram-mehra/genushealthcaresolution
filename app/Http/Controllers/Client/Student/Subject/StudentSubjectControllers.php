@@ -49,7 +49,7 @@ class StudentSubjectControllers extends Controller
         $topic       = $testReports[0]->subject_title;
         
         $correctFlag = 0;
-        $questions = [];
+        $questions = $correctAns = [];
         $testReportsAns = \DB::table('online_test_question_report')
                         ->select('online_test_question_report.*','questions.question','questions.quizType')
                         ->join('questions','questions.id','=','online_test_question_report.question_id')
@@ -62,11 +62,24 @@ class StudentSubjectControllers extends Controller
                 $data['quizType'][$val->question_id] = $val->quizType;
                 $questions[] = ['id'=>$val->question_id , 'question'=>$val->question];
                 if($val->given_ans == $val->correct_ans) {
+                    $correctAns[] = $val->question_id;
                     $correctFlag++;
+                }
+                if($val->quizType==4) {
+                    $arrayA = explode(',', $val->correct_ans);
+                    $arrayB = explode(',', $val->given_ans);
+
+                    // Step 2: Sort the arrays alphabetically
+                    sort($arrayA);
+                    sort($arrayB);
+                    if ($arrayA === $arrayB) {
+                        $correctAns[] = $val->question_id;
+                        $correctFlag++;
+                    }
                 }
             }
         }
-        return view('client/student/subject/stu-test-result', compact('totalQues', 'attemptQues', 'subject', 'topic',  'correctFlag', 'questions', 'data'));
+        return view('client/student/subject/stu-test-result', compact('totalQues', 'attemptQues', 'subject', 'topic',  'correctFlag', 'questions', 'data','correctAns'));
     }
 
     public function onlineTest($subject, $topic)
@@ -113,7 +126,7 @@ class StudentSubjectControllers extends Controller
             $attemptQues = count($data['given_ans']);
 
 
-            $qstId = [];
+            $qstId = $correctAns = [];
             $correctFlag = 0;
             foreach($data['given_ans'] as $qid => $givenAns) {
                 $givenAns = (is_array($givenAns))?implode(",",$givenAns):$givenAns;
@@ -129,7 +142,20 @@ class StudentSubjectControllers extends Controller
                 // Getting Correct Answers...
                 
                 if($givenAns == $corr_ans) {
+                    $correctAns[] = $qid;
                     $correctFlag++;
+                }
+                if($data['quizType'][$qid]==4) {
+                    $arrayA = explode(',', $corr_ans);
+                    $arrayB = explode(',', $givenAns);
+
+                    // Step 2: Sort the arrays alphabetically
+                    sort($arrayA);
+                    sort($arrayB);
+                    if ($arrayA === $arrayB) {
+                        $correctAns[] = $qid;
+                        $correctFlag++;
+                    }
                 }
                 if($chkQues) {
                     $chkQues->update(['given_ans' => $givenAns]);
@@ -167,7 +193,7 @@ class StudentSubjectControllers extends Controller
             $questions = Session::get('testQuestions');
             //print_r($data); die;
             // return back()->with(['message' => 'You have given successfully test!', 'alert-type' => 'success']);
-            return view('client/student/subject/test-result', compact('totalQues', 'attemptQues', 'subject', 'topic', 'limit', 'correctFlag', 'questions', 'data'));
+            return view('client/student/subject/test-result', compact('totalQues', 'attemptQues', 'subject', 'topic', 'limit', 'correctFlag', 'questions', 'data','correctAns'));
         }
 
         
@@ -190,11 +216,26 @@ class StudentSubjectControllers extends Controller
     public static function CORRECTANS($qid,$test_id){
         $questions = explode(',', $qid);
 
-        $Qdata = \DB::table('online_test_question_report')->where('online_test_id',$test_id)->whereIn('question_id',$questions)->get();
+        $Qdata = \DB::table('online_test_question_report')
+                    ->select('online_test_question_report.*','questions.question','questions.quizType')
+                    ->join('questions','questions.id','=','online_test_question_report.question_id')
+                    ->where('online_test_id',$test_id)->whereIn('online_test_question_report.question_id',$questions)->get();
         $count = 0;
         foreach ($Qdata as $key => $val) {
             if($val->given_ans==$val->correct_ans){
                 $count=$count+1;
+            }
+            if($val->quizType==4) {
+                $arrayA = explode(',', $val->correct_ans);
+                $arrayB = explode(',', $val->given_ans);
+
+                // Step 2: Sort the arrays alphabetically
+                sort($arrayA);
+                sort($arrayB);
+                if ($arrayA === $arrayB) {
+                    $correctAns[] = $val->question_id;
+                    $count++;
+                }
             }
         }
 

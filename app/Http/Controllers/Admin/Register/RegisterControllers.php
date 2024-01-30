@@ -223,7 +223,7 @@ class RegisterControllers extends Controller
         $topic       = $testReports[0]->subject_title;
         
         $correctFlag = 0;
-        $questions = [];
+        $questions = $correctAns = [];
         $testReportsAns = \DB::table('online_test_question_report')
                         ->select('online_test_question_report.*','questions.question','questions.quizType')
                         ->join('questions','questions.id','=','online_test_question_report.question_id')
@@ -236,11 +236,24 @@ class RegisterControllers extends Controller
                 $data['quizType'][$val->question_id] = $val->quizType;
                 $questions[] = ['id'=>$val->question_id , 'question'=>$val->question];
                 if($val->given_ans == $val->correct_ans) {
+                    $correctAns[] = $val->question_id;
                     $correctFlag++;
+                }
+                if($val->quizType==4) {
+                    $arrayA = explode(',', $val->correct_ans);
+                    $arrayB = explode(',', $val->given_ans);
+
+                    // Step 2: Sort the arrays alphabetically
+                    sort($arrayA);
+                    sort($arrayB);
+                    if ($arrayA === $arrayB) {
+                        $correctAns[] = $val->question_id;
+                        $correctFlag++;
+                    }
                 }
             }
         }
-        return view('admin/register/stu-test-result', compact('totalQues', 'attemptQues', 'subject', 'topic',  'correctFlag', 'questions', 'data'));
+        return view('admin/register/stu-test-result', compact('totalQues', 'attemptQues', 'subject', 'topic',  'correctFlag', 'questions', 'data', 'correctAns'));
     }
 
 

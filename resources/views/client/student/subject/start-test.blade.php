@@ -95,26 +95,29 @@
 		                            <div class="clear"></div>
 		                        </div>
 								@elseif($q->quizType==4)
+								@php $label = (isset($q->ans_label)) ? explode("|", $q->ans_label):[];
+								     //print_r($label);die;
+								@endphp
 								<div class="question">
-		                            <span>A) </span>
+		                            <span>{{ (isset($label[0])) ? $label[0] : 'A)' }} </span>
 		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_a{{ $loop->iteration }}" value="" required>
 		                            <p>{{ $q->ans_a }}</p>
 		                            <div class="clear"></div>
 		                        </div>
 		                        <div class="question">
-		                            <span>B) </span>
+		                            <span>{{ (isset($label[1])) ? $label[1] : 'B)' }} </span>
 		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_b{{ $loop->iteration }}" value="">
 		                            <p>{{ $q->ans_b }}</p>
 		                            <div class="clear"></div>
 		                        </div>
 								<div class="question">
-		                            <span>C) </span>
+		                            <span>{{ (isset($label[2])) ? $label[2] : 'C)' }}</span>
 		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_c{{ $loop->iteration }}" value="">
 		                            <p>{{ $q->ans_c }}</p>
 		                            <div class="clear"></div>
 		                        </div>
 		                        <div class="question">
-		                            <span>D) </span>
+		                            <span>{{ (isset($label[3])) ? $label[3] : 'D)' }} </span>
 		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_d{{ $loop->iteration }}" value="">
 		                            <p>{{ $q->ans_d }}</p>
 		                            <div class="clear"></div>

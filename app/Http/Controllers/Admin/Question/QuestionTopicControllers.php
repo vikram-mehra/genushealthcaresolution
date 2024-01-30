@@ -35,6 +35,8 @@ class QuestionTopicControllers extends Controller
             'quizType' => 'required',
             'correct_ans' => 'required',
         ]);
+
+        $req->merge(['ans_label' => '']);
          // If quizType is 2, convert correct_ans from array to string
         if ($req->input('quizType') == 2 && is_array($req->input('correct_ans'))) {
             $req->merge(['correct_ans' => implode(',', $req->input('correct_ans'))]);
@@ -43,6 +45,7 @@ class QuestionTopicControllers extends Controller
          // If quizType is 4, convert correct_ans from array to string
          if ($req->input('quizType') == 4 && is_array($req->input('correct_ans'))) {
             $req->merge(['correct_ans' => implode(',', $req->input('correct_ans'))]);
+            $req->merge(['ans_label' => implode('|', $req->input('label'))]);
         }
         $inputArr = $req->except('_token');
         //print_r($inputArr);die;
