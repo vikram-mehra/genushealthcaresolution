@@ -96,6 +96,7 @@ class RegisterControllers extends Controller
             'phone'      => $req->phone,
             'password'   => Crypt::encryptString($req->password),
             'status'     => $req->status,
+            'expiry_date'     => $req->expiry_date,
             'updated_at' => date('Y-m-d H:i:s')
         ];
         // Assigned Student courses here..
@@ -109,8 +110,7 @@ class RegisterControllers extends Controller
                 Payment::create(['student_id' => $req->register_id, 'course_id' => $cid, 'order_id' => 'GEN00'.$orderId]);
             }
         }
-
-         // Assigned Student courses document here..
+        // Assigned Student courses document here..
          if($req->has('doc_id')) {
             $courseDocId = $req->input('doc_id');
             #Fetch all existing doc_ids for the student
@@ -118,14 +118,8 @@ class RegisterControllers extends Controller
             
             foreach ($courseDocId as $cid) {
                 if (!in_array($cid, $pdfIds)) {
-                    // Fetch expiry_days from CoursePdf based on the $cid
-                    $expiryDays = CoursePdf::where('id', $cid)->value('expiry_days');
-
-                    // Calculate expiry_date based on current date and expiry_days
-                    $expiryDate = date("Y-m-d", strtotime("+$expiryDays days"));
-
                     // Create a new record if the doc_id is not present in the database
-                    StudentDoc::create(['student_id' => $req->register_id, 'doc_id' => $cid,'expiry_date'=> $expiryDate]);
+                    StudentDoc::create(['student_id' => $req->register_id, 'doc_id' => $cid]);
                 } else {
                     // Remove the found doc_id from $pdfIds array
                     if (!empty($pdfIds)) {

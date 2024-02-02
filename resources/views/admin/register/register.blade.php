@@ -93,7 +93,12 @@
                                         <div style="color:red">{{ $errors->first('phone') }}</div>
                                         @endif
                                     </div>
-                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Expiry Date</label>
+                                            <input type="date" name="expiry_date" value="{{$singledata!=''?$singledata->expiry_date:old('expiry_date')}}"  class="form-control" id="expiry_date">
+                                        </div>
+                                    </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="inputName">Password</label>

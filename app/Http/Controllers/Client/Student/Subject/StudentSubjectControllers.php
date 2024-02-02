@@ -14,6 +14,9 @@ class StudentSubjectControllers extends Controller
 {
     public function index($subject, $topic)
     {
+        if(session()->get('studentsession')->expiry_date <= date("Y-m-d")) {
+            return redirect(url('/student/dashboard'));
+        }
         $student_id = Session::get('studentsession')->id;
         $courseId = $this->getCourseId($subject);
         $courseContent = CourseTopic::select('*')

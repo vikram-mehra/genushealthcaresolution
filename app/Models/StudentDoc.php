@@ -11,7 +11,7 @@ class StudentDoc extends Model
 
     protected $table = 'stu_doc';
 
-    protected $fillable = ['student_id', 'doc_id', 'expiry_date'];
+    protected $fillable = ['student_id', 'doc_id'];
 
     public function course_pdf()
     {

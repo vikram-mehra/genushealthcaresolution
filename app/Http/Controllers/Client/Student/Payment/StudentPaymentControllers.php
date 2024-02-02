@@ -18,10 +18,12 @@ class StudentPaymentControllers extends Controller
     }
 
     public function getDocList(Request $req)
-    {
+    {   
+        if(session()->get('studentsession')->expiry_date <= date("Y-m-d")) {
+            return redirect(url('/student/dashboard'));
+        }
         $doc = StudentDoc::with('course_pdf', 'student')
                 ->where('student_id', '=', \Session::get('studentsession')->id)
-                ->where('expiry_date', '>=', date("Y-m-d"))
                 ->get();
         return view('client/student/payment/course_doc', compact('doc'));
     }

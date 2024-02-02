@@ -17,9 +17,9 @@
                         <h3 class="widget-title"><i class="fa fa-book"></i> Student Panel</h3>
                         <ul>
                             <li> <a href="{{url('/student/dashboard')}}" class="active2"> <i class="fa fa-tachometer" aria-hidden="true"></i>Dashboard <span></span></a> </li>
-                            <!-- <li> <a href="{{url('/student/video')}}"> <i class="fa fa-youtube"></i>Video <span></span></a> </li> -->
                             @php
-                                $courses = session()->get('courses');
+                                if(session()->get('studentsession')->expiry_date >= date('Y-m-d')) { 
+                                    $courses = session()->get('courses');
                             @endphp
                             <nav class="nav leftmenu" role="navigation">
                                 <ul class="nav__list">
@@ -49,6 +49,7 @@
                             </nav>
                             <li> <a href="{{url('/student/payment-history')}}"> <i class="fa fa-pencil-square-o"></i>Payment History</a> </li>
                             <li> <a href="{{url('/student/course-docs')}}"> <i class="fa fa-pencil-square-o"></i>Course Docs</a> </li>
+                            @php } @endphp
                             <li> <a href="{{url('/student/my-profile')}}"> <i class="fa fa-user"></i> My Profile<span> </span></a> </li>
                             <li> <a href="{{url('/student/change-password')}}"><i class="fa fa-key"></i>Change Password<span> </span></a> </li>
                             <li> <a href="{{url('/student/logout')}}"><i class="fa fa-sign-out"></i>Logout<span> </span></a> </li>

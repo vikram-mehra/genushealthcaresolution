@@ -21,12 +21,7 @@
                   <input type="text" name="name" value="{{(isset($singledata->name)) ?$singledata->name:''}}" >
                 </div>
 
-                <div class="col-sm-6">
-                  <label id="inputName">Expiry Days</label>
-                  <input type="text" name="expiry_days" value="{{(isset($singledata->expiry_days)) ?$singledata->expiry_days:''}}" >
-                </div>
-
-
+               
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="inputName">Select Topic</label>

@@ -24,8 +24,7 @@
 	                                        <th>S.NO.</th>
 	                                        <th>Assign DATE</th>
 	                                        <th>Document Name</th>
-											<th>Valid Till</th>
-	                                        <th>view</th>
+											<th>view</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
@@ -35,8 +34,7 @@
 	                                        <td>{{ $loop->iteration }}</td>
 	                                        <td>{{ $payment->created_at }}</td>
 	                                        <td>{{ $payment->course_pdf->name }}</td>
-											<td>{{ $payment->expiry_date }}</td>
-                                            <td>
+										    <td>
 												<a href="{{url('/public/')}}/{{$payment->course_pdf->course_pdf}}" target="_blank">Doc</a>
 											</td>
 	                                    </tr>
