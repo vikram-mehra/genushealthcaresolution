@@ -107,6 +107,7 @@ Route::group(['prefix' => 'student', 'middleware' => 'StudentAuth'], function ()
 	Route::get('/payment-history',[StudentPaymentControllers::class,'index']);
 	# document in student dashboard
 	Route::get('/course-docs',[StudentPaymentControllers::class, 'getDocList']);
+	Route::get('/course-docs-view/{docid}',[StudentPaymentControllers::class, 'viewDoc']);
 
 	Route::match(['get', 'post'], '/my-profile',[StudentProfileControllers::class,'index']);
 	#Change Passsword

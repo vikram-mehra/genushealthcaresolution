@@ -35,7 +35,7 @@
 	                                        <td>{{ $payment->created_at }}</td>
 	                                        <td>{{ $payment->course_pdf->name }}</td>
 										    <td>
-												<a href="{{url('/public/')}}/{{$payment->course_pdf->course_pdf}}" target="_blank">Doc</a>
+												<a href="{{url('/student/course-docs-view/'.$payment->course_pdf->id)}}" target="_blank">Doc</a>
 											</td>
 	                                    </tr>
 	                                    <tr>
