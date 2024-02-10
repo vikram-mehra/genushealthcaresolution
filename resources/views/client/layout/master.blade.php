@@ -227,7 +227,7 @@
 <!-- Form Validator Min JS --> 
 <script src="{{url('/public/client')}}/assets/js/form-validator.min.js"></script> 
 <!-- Contact JS --> 
-<script src="{{url('/public/client')}}/assets/js/contact-form-script.js"></script> 
+<script src="{{url('/public/client')}}/assets/js/contact-form-script.js?id=1234"></script> 
 <!-- Ajaxchimp Min JS --> 
 <script src="{{url('/public/client')}}/assets/js/ajaxchimp.min.js"></script> 
 <!-- Custom JS --> 

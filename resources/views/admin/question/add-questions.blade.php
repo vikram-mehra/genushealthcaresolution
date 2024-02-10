@@ -211,37 +211,37 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="ans_a"><input type="text" id="label_a1" name="label[]" class="form-control" style="height: 40px" value="{{ (isset($label[0])) ? $label[0] : '' }}" 
-                                                placeholder="Label A" required> </label>
+                                                placeholder="Label A" > </label>
                                                
                                                 <input type="text" id="ans_a1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[0])) ? $co_ans[0] : '' }}" 
-                                                placeholder="Answer A" required>
+                                                placeholder="Answer A" >
                                                
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                             <label for="ans_b"><input type="text" id="label_b1" name="label[]" class="form-control" style="height: 40px" value="{{ (isset($label[1])) ? $label[1] : '' }}" 
-                                                placeholder="Label B" required> </label>
+                                                placeholder="Label B" > </label>
                                                 <input type="text" id="ans_b1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[1])) ? $co_ans[1] : '' }}" 
-                                                placeholder="Answer B"required>
+                                                placeholder="Answer B">
                                                
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                             <label for="ans_c"><input type="text" id="label_c1" name="label[]" class="form-control" style="height: 40px" value="{{ (isset($label[2])) ? $label[2] : '' }}" 
-                                                placeholder="Label C" required> </label>
+                                                placeholder="Label C" > </label>
                                                 <input type="text" id="ans_c1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[2])) ? $co_ans[2] : '' }}" 
-                                                placeholder="Answer C" required>
+                                                placeholder="Answer C" >
                                                
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                             <label for="ans_d"><input type="text" id="label_d1" name="label[]" class="form-control" style="height: 40px" value="{{ (isset($label[3])) ? $label[3] : '' }}" 
-                                                placeholder="Label D" required> </label>
+                                                placeholder="Label D" > </label>
                                                 <input type="text" id="ans_d1" name="correct_ans[]" class="form-control" style="height: 60px" value="{{ (isset($co_ans[3])) ? $co_ans[3] : '' }}" 
-                                                placeholder="Answer D" required>
+                                                placeholder="Answer D" >
                                                
                                             </div>
                                         </div>

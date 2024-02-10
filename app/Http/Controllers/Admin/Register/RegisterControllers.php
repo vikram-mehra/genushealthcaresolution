@@ -115,7 +115,6 @@ class RegisterControllers extends Controller
             $courseDocId = $req->input('doc_id');
             #Fetch all existing doc_ids for the student
             $pdfIds = StudentDoc::where('student_id', $req->register_id)->pluck('doc_id')->toArray();
-            
             foreach ($courseDocId as $cid) {
                 if (!in_array($cid, $pdfIds)) {
                     // Create a new record if the doc_id is not present in the database
@@ -128,13 +127,14 @@ class RegisterControllers extends Controller
                     }
                 }
             }
-        
             // Delete remaining ids from the table
             if (!empty($pdfIds)) {
                 StudentDoc::where('student_id', $req->register_id)
                     ->whereIn('doc_id', $pdfIds)
                     ->delete();
             }
+        } else {
+            StudentDoc::where(['student_id' => $req->register_id])->delete();
         }
 
         return DB::table('tbl_student')->where('id', $req->register_id)->update($paramArray);

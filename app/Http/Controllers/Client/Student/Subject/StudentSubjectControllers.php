@@ -54,7 +54,7 @@ class StudentSubjectControllers extends Controller
         $correctFlag = 0;
         $questions = $correctAns = [];
         $testReportsAns = \DB::table('online_test_question_report')
-                        ->select('online_test_question_report.*','questions.question','questions.quizType')
+                        ->select('online_test_question_report.*','questions.*')
                         ->join('questions','questions.id','=','online_test_question_report.question_id')
                         ->where('online_test_question_report.online_test_id',$examId)
                         ->get();
@@ -62,6 +62,29 @@ class StudentSubjectControllers extends Controller
             foreach($testReportsAns as $val) {
                 $data['given_ans'][$val->question_id] = $val->given_ans;
                 $data['correct_ans'][$val->question_id] = $val->correct_ans;
+                if(in_array($val->quizType,[1,3])) {
+                    $an = $val->given_ans;
+                    $data['given_ans'][$val->question_id] = $val->$an;
+                    $can = $val->correct_ans;
+                    $data['correct_ans'][$val->question_id] = $val->$can;
+                }else if(in_array($val->quizType,[2])) {
+                    // given answers
+                    $ans = explode(",",$val->given_ans);
+                    $an = '';
+                    foreach($ans as $an1) {
+                        $an .= $val->$an1;
+                    }
+                    $data['given_ans'][$val->question_id] = $an;
+                    // correct answer
+                    $ans1 = explode(",",$val->correct_ans);
+                    $can = '';
+                    foreach($ans1 as $an2) {
+                        $can .= $val->$an2;
+                    }
+                    $data['correct_ans'][$val->question_id] = $can;
+                }
+
+                
                 $data['quizType'][$val->question_id] = $val->quizType;
                 $questions[] = ['id'=>$val->question_id , 'question'=>$val->question];
                 if($val->given_ans == $val->correct_ans) {

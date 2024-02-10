@@ -100,7 +100,7 @@
 								@endphp
 								<div class="question">
 		                            <span>{{ (isset($label[0])) ? $label[0] : 'A)' }} </span>
-		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_a{{ $loop->iteration }}" value="" required>
+		                            <input type="text" name="given_ans[{{$q->id}}][]" qno="{{ $loop->iteration }}" id="ans_a{{ $loop->iteration }}" value="" >
 		                            <p>{{ $q->ans_a }}</p>
 		                            <div class="clear"></div>
 		                        </div>

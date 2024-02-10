@@ -27,10 +27,11 @@
 
         $.ajax({
             type: "POST",
-            url: "assets/php/form-process.php",
+            url: "api/contact-us",
             data: "name=" + name + "&email=" + email + "&msg_subject=" + msg_subject + "&phone_number=" + phone_number + "&message=" + message,
             success : function(text){
-                if (text == "success"){
+                console.log('text', text);
+                if (text.success){
                     formSuccess();
                 } else {
                     formError();
@@ -52,6 +53,7 @@
     }
 
     function submitMSG(valid, msg){
+         console.log('succ', msg);
         if(valid){
             var msgClasses = "h4 tada animated text-success";
         } else {

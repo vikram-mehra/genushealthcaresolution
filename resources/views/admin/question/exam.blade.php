@@ -5,47 +5,7 @@
             <h2 class="mt-5 mb-4">Question</h2>
             <div class="row">
                 <div class="col-md-12">
-                   <!--  <div class="card card-primary">
-                        <div class="card-header">
-                            <h6 class="card-title">Question Form</h6> -->
-                            <!-- <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-toggle="collapse" data-target="#demo">
-                                  <i class="fas fa-minus"></i></button>
-                                </div> --> 
-                        <!-- </div>
-                        <div class="card-body" id="demo">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputName">Select Subject</label>
-                                        <select id="courseName" class="form-control" >
-                                            <option value="">-- Select --</option>
-                                            @if(! empty($courses))
-                                                @foreach($courses as $course)
-                                                    <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="inputName">Select Quiz Name</label>
-                                        <select id="quizName" class="form-control">
-                                            <option value="">-- Select --</option>
-                                            @if(! empty($coursetopics))
-                                                @foreach($coursetopics as $val)
-                                                    <option value="{{ $val->id }}">{{ $val->subject_title }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                </div> -->
-                            <!-- </div>
-                        </div> -->
-                        <!-- /.card-body --> 
-                    <!-- </div> -->
-                    <!-- /.card -->
+                   
                     <div class="card-body" id="demo">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -59,15 +19,15 @@
                     </div>
                     <!-- card -->
                     <div class="card my-4">
-                        <div class="card-header"> <i class="fas fa-table mr-1"></i> Category List </div>
+                        <div class="card-header"> <i class="fas fa-table mr-1"></i> Question List </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                <table class="table table-bordered" width="100%" cellspacing="0" id="myTable">
                                     <thead>
                                         <tr>
                                             <th>S.No.</th>
-                                            <!-- <th>Course Name</th> -->
                                             <th>Topic Name</th>
+                                            <th>Quetion</th>
                                             <th>Answer A</th>
                                             <th>Answer B</th>
                                             <th>Answer C</th>
@@ -84,8 +44,8 @@
                                         @php $cn = $question->course; @endphp
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <!-- <td>{{ (isset($cn->course_name)) ? $cn->course_name : '' }}</td> -->
                                             <td>{{ !empty($question->course_topic)? $question->course_topic->subject_title:''}}</td>
+                                            <td width="50">{{ !empty($question->question)? strip_tags($question->question):''}}</td>
                                             <td>{{ $question->ans_a }}</td>
                                             <td>{{ $question->ans_b }}</td>
                                             <td>{{ $question->ans_c }}</td>
@@ -101,9 +61,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div style="float: right;">
-                            {{$questions->links()}}
-                            </div>
+                            
                         </div>
                     </div>
                     <!-- end --> 
@@ -157,5 +115,25 @@
         
     }
 </script>
+
+<script type="text/javascript" src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#myTable').DataTable( {
+                paging: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Interview Assigned Candidate List'
+                    },
+                ]
+            } );
+            $(document).find('.dt-buttons button').text('Export Excel').addClass('btn btn-primary');
+        } );
+    </script>
 
 @endsection

@@ -14,7 +14,7 @@ class QuestionTopicControllers extends Controller
     public function Index()
     {
         $courses = Course::whereStatus(1)->get();
-        $questions = Question::with('course', 'course_topic')->paginate(50);
+        $questions = Question::with('course', 'course_topic')->get();
         $coursetopics = CourseTopic::where('status',1)->get();
 
         return view('admin/question/exam', compact('courses', 'questions','coursetopics'));
